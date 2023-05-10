@@ -163,10 +163,14 @@ void ofApp::drawPointCloud() {
 		for(int x = 0; x < w; x += step) {
 			if(kinect.getDistanceAt(x, y) > 0) {
 				if (kinect.getDistanceAt(x, y) < 1500) {
-					mesh.addColor(kinect.getColorAt(x, y));
-					mesh.addColor(myColor);
+					//mesh.addColor(kinect.getColorAt(x, y));
+					ofColor myNewColor = kinect.getColorAt(x, y);
+					myNewColor.r = 0;
+					mesh.addColor(myNewColor);
 					mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
-					mesh.addColor(myOtherColor);
+					ofColor my2NewColor = kinect.getColorAt(x, y);
+					my2NewColor.r = 0;
+					mesh.addColor(my2NewColor);
 					mesh.addVertex(kinect.getWorldCoordinateAt(x+1, y+1));
 				}
 			}
