@@ -6,6 +6,7 @@
 */
 
 //--------------------------------------------------------------
+
 void ofApp::setup() {
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	
@@ -125,7 +126,7 @@ void ofApp::draw() {
 	// draw instructions
 	ofSetColor(255, 255, 255);
 	stringstream reportStream;
-        
+
     if(kinect.hasAccelControl()) {
         reportStream << "accel is: " << ofToString(kinect.getMksAccel().x, 2) << " / "
         << ofToString(kinect.getMksAccel().y, 2) << " / "
@@ -148,8 +149,29 @@ void ofApp::draw() {
     }
     
 	ofDrawBitmapString(reportStream.str(), 20, 652);
-    
+    /*
+	std::string casoText = "caso: " + std::to_string(caso);
+	std::string checkText = "check: " + std::to_string(check);
+	ofDrawBitmapString(casoText, 10, 20);
+	ofDrawBitmapString(checkText, 10, 40); */ //could be useful to check variables
+
+	// display estado casoStream
+	stringstream casoStream;
+	ofSetColor(255, 255, 255);
+	casoStream.str("");
+	casoStream << "caso " << caso << " pa " << endl;
+	ofDrawBitmapString(casoStream.str(), 20, 770);
+
+	ofSetColor(ofColor::whiteSmoke);
+	ofDrawLine(100, 100, 600, 100);
+	ofDrawLine(100, 100, 100, 400);
+	ofDrawLine(100, 400, 650, 400);
+	ofDrawLine(650, 400, 600, 100);
+	ofDrawRectangle(100, 100, 100, 100);
+
 }
+
+
 
 void ofApp::drawPointCloud() {
 	int w = 640;
@@ -159,19 +181,51 @@ void ofApp::drawPointCloud() {
 	ofColor myOtherColor = ofColor(255, 0, 255, 200);
 	mesh.setMode(OF_PRIMITIVE_POINTS);
 	int step = 2;
+	
 	for(int y = 0; y < h; y += step) {
 		for(int x = 0; x < w; x += step) {
 			if(kinect.getDistanceAt(x, y) > 0) {
 				if (kinect.getDistanceAt(x, y) < 1500) {
-					//mesh.addColor(kinect.getColorAt(x, y));
-					ofColor myNewColor = kinect.getColorAt(x, y);
-					myNewColor.r = 0;
-					mesh.addColor(myNewColor);
+					mesh.addColor(kinect.getColorAt(x, y));
+					if (caso == 0)
+					{
+						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor.r = 0;
+						mesh.addColor(myNewColor);
+						check = 88;
+						
+					}
+					else if (caso == 1)
+					{
+						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor.b = 0;
+						mesh.addColor(myNewColor);
+						check = 12;
+						
+					}
+					else if (caso == 2)
+					{
+						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor.g = 0;
+						mesh.addColor(myNewColor);
+						check = 60;
+
+					}
+					else if (caso == 3)
+					{
+						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor.g = 0;
+						myNewColor.b = 0;
+						mesh.addColor(myNewColor);
+						check = 72;
+
+					}
+					
 					mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
-					ofColor my2NewColor = kinect.getColorAt(x, y);
-					my2NewColor.r = 0;
-					mesh.addColor(my2NewColor);
-					mesh.addVertex(kinect.getWorldCoordinateAt(x+1, y+1));
+					//ofColor my2NewColor = kinect.getColorAt(x, y);
+					//my2NewColor.r = 0;
+					//mesh.addColor(my2NewColor);
+					//mesh.addVertex(kinect.getWorldCoordinateAt(x+1, y+1));
 				}
 			}
 		}
@@ -185,6 +239,7 @@ void ofApp::drawPointCloud() {
 	mesh.drawVertices();
 	ofDisableDepthTest();
 	ofPopMatrix();
+	
 }
 
 //--------------------------------------------------------------
@@ -244,17 +299,21 @@ void ofApp::keyPressed (int key) {
 			kinect.setCameraTiltAngle(0); // zero the tilt
 			kinect.close();
 			break;
+
 			
 		case '1':
 			kinect.setLed(ofxKinect::LED_GREEN);
+			caso = 1;
 			break;
 			
 		case '2':
 			kinect.setLed(ofxKinect::LED_YELLOW);
+			caso = 2;
 			break;
 			
 		case '3':
 			kinect.setLed(ofxKinect::LED_RED);
+			caso = 3;
 			break;
 			
 		case '4':
@@ -267,6 +326,7 @@ void ofApp::keyPressed (int key) {
 			
 		case '0':
 			kinect.setLed(ofxKinect::LED_OFF);
+			caso = 0;
 			break;
 			
 		case OF_KEY_UP:

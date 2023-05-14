@@ -61,6 +61,10 @@ public:
 	int farThreshold;
 	
 	int angle;
+
+	int caso = 0;
+	int check = 63;
+	
 	
 	// used for viewing the point cloud
 	ofEasyCam easyCam;
