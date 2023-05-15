@@ -162,13 +162,24 @@ void ofApp::draw() {
 	casoStream << "caso " << caso << " pa " << endl;
 	ofDrawBitmapString(casoStream.str(), 20, 770);
 
-	ofSetColor(ofColor::whiteSmoke);
-	ofDrawLine(100, 100, 600, 100);
-	ofDrawLine(100, 100, 100, 400);
-	ofDrawLine(100, 400, 650, 400);
-	ofDrawLine(650, 400, 600, 100);
-	ofDrawRectangle(100, 100, 100, 100);
+	
+	int v1[] = { 20,20 };
+	int v2[] = { 256,20 };
+	int v3[] = { 306,275 };
+	int v4[] = { 20,300 };
+	drawCuadri(v1, v2, v3, v4);
 
+	int v12[] = { 280,20 };
+	int v22[] = { 547,20 };
+	int v32[] = { 547,256 };
+	int v42[] = { 331,273 };
+	drawCuadri(v12, v22, v32, v42);
+
+	int v13[] = { 572,20 };
+	int v23[] = { 778,20 };
+	int v33[] = { 778,238 };
+	int v43[] = { 572,253 };
+	drawCuadri(v13, v23, v33, v43);
 }
 
 

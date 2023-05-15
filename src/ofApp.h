@@ -3,6 +3,7 @@
 #include "ofMain.h" //necesary of
 #include "ofxOpenCv.h" //necessary OpenCV
 #include "ofxKinect.h" //necessary ofxKinect
+#include "modulate.h"
 
 // Windows users:
 // You MUST install the libfreenect kinect drivers in order to be able to use
@@ -39,6 +40,8 @@ public:
 	void mouseEntered(int x, int y);
 	void mouseExited(int x, int y);
 	void windowResized(int w, int h);
+
+	
 	
 	ofxKinect kinect;
 	
