@@ -159,8 +159,8 @@ void ofApp::draw() {
 	stringstream casoStream;
 	ofSetColor(255, 255, 255);
 	casoStream.str("");
-	casoStream << "caso " << caso << " pa " << endl;
-	ofDrawBitmapString(casoStream.str(), 20, 770);
+	casoStream << "caso " << caso << " AAAA " << endl;
+	ofDrawBitmapString(casoStream.str(), 20, 610);
 
 	
 	int v1[] = { 20,20 };
@@ -191,16 +191,16 @@ void ofApp::drawPointCloud() {
 	ofColor myColor = ofColor(139, 195, 74, 255);
 	ofColor myOtherColor = ofColor(255, 0, 255, 200);
 	mesh.setMode(OF_PRIMITIVE_POINTS);
+	ofColor myNewColor;
 	int step = 2;
 	
 	for(int y = 0; y < h; y += step) {
 		for(int x = 0; x < w; x += step) {
 			if(kinect.getDistanceAt(x, y) > 0) {
 				if (kinect.getDistanceAt(x, y) < 1500) {
-					mesh.addColor(kinect.getColorAt(x, y));
-					if (caso == 0)
+					if (caso == 4)
 					{
-						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor = kinect.getColorAt(x, y);
 						myNewColor.r = 0;
 						mesh.addColor(myNewColor);
 						check = 88;
@@ -208,7 +208,7 @@ void ofApp::drawPointCloud() {
 					}
 					else if (caso == 1)
 					{
-						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor = kinect.getColorAt(x, y);
 						myNewColor.b = 0;
 						mesh.addColor(myNewColor);
 						check = 12;
@@ -216,7 +216,7 @@ void ofApp::drawPointCloud() {
 					}
 					else if (caso == 2)
 					{
-						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor = kinect.getColorAt(x, y);
 						myNewColor.g = 0;
 						mesh.addColor(myNewColor);
 						check = 60;
@@ -224,9 +224,16 @@ void ofApp::drawPointCloud() {
 					}
 					else if (caso == 3)
 					{
-						ofColor myNewColor = kinect.getColorAt(x, y);
+						myNewColor = kinect.getColorAt(x, y);
 						myNewColor.g = 0;
 						myNewColor.b = 0;
+						mesh.addColor(myNewColor);
+						check = 72;
+
+					}
+					else if (caso == 0)
+					{
+						myNewColor = kinect.getColorAt(x, y);
 						mesh.addColor(myNewColor);
 						check = 72;
 
@@ -235,8 +242,8 @@ void ofApp::drawPointCloud() {
 					mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
 					//ofColor my2NewColor = kinect.getColorAt(x, y);
 					//my2NewColor.r = 0;
-					//mesh.addColor(my2NewColor);
-					//mesh.addVertex(kinect.getWorldCoordinateAt(x+1, y+1));
+					mesh.addColor(myNewColor);
+					mesh.addVertex(kinect.getWorldCoordinateAt(x+1, y+1));
 				}
 			}
 		}
@@ -329,6 +336,7 @@ void ofApp::keyPressed (int key) {
 			
 		case '4':
 			kinect.setLed(ofxKinect::LED_BLINK_GREEN);
+			caso = 4;
 			break;
 			
 		case '5':
